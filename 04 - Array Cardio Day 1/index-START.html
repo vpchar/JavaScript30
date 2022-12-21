@@ -37,17 +37,47 @@
     
     // Array.prototype.filter()
     // 1. Filter the list of inventors for those who were born in the 1500's
+    const bornIn1500s = inventors.filter(row => (row.year>=1500 && row.year<1600));
+    console.table(bornIn1500s);
 
     // Array.prototype.map()
     // 2. Give us an array of the inventors first and last names
+    const firstAndLastName = inventors.map(inventor => (inventor.first +' '+ inventor.last))
+    console.table(firstAndLastName)
+    console.log(firstAndLastName)
+//why these two are different? What we get?
+    const fullNames = inventors.map(inventor => `${inventor.first} ${inventor.last}`);
+    console.table(fullNames);
+    console.log(fullNames)
 
     // Array.prototype.sort()
     // 3. Sort the inventors by birthdate, oldest to youngest
+    const sorted = inventors.sort( (birthdate,oldest)=> birthdate.year > oldest.year ? 1 : -1 );
+    console.table(sorted);
+    //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
+    //the above sort is same as:
+    // const ordered = inventors.sort(function(a, b) {
+    //   if(a.year > b.year) {
+    //     return 1;
+    //   } else {
+    //     return -1;
+    //   }
+    // });
+    //--> (a,b) => a COMPARED_TO b ? result_if_true : result_if_false
+
 
     // Array.prototype.reduce()
     // 4. How many years did all the inventors live all together?
+//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce
+     const sumOfYears = inventors.reduce( (accumulated,current)=>{
+      return accumulated+(current.passed-current.year)
+     },0) ;
+     console.log(sumOfYears);
+
 
     // 5. Sort the inventors by years lived
+    const sortedByAge = inventors.sort( (a,b)=> ( (a.passed-a.year) > (b.passed - b.year) ? 1 : -1 ) );
+     console.table(sortedByAge);
 
     // 6. create a list of Boulevards in Paris that contain 'de' anywhere in the name
     // https://en.wikipedia.org/wiki/Category:Boulevards_in_Paris
@@ -55,11 +85,31 @@
 
     // 7. sort Exercise
     // Sort the people alphabetically by last name
+    const alpha = people.sort(//sort method
+      (lastOne, nextOne) => {
+        const [aLast, aFirst] = lastOne.split(', ');
+        const [bLast, bFirst] = nextOne.split(', ');
+        return aLast > bLast ? 1 : -1;
+      }
+    ); //end .sort()
+    console.log(alpha);
 
     // 8. Reduce Exercise
     // Sum up the instances of each of these
-    const data = ['car', 'car', 'truck', 'truck', 'bike', 'walk', 'car', 'van', 'bike', 'walk', 'car', 'van', 'car', 'truck' ];
+    // tired now, later will check EXXACTLY why this works ;-)
+    // never used reduce before, not unexpected to be strange
 
+    const data = ['car', 'car', 'truck', 'truck', 'bike', 'walk', 'car', 'van', 'bike', 'walk', 'car', 'van', 'car', 'truck', 'pogostick'];
+
+    const transportation = data.reduce(function(accumulator, currentValue) {
+      if (!accumulator[currentValue]) { //not yet found
+        accumulator[currentValue] = 0;
+      }
+      accumulator[currentValue]++;
+      return accumulator;
+    }, {}); //..reduce( function , initial_value)
+
+    console.log(transportation);
   </script>
 </body>
 </html>
